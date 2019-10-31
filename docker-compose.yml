@@ -11,6 +11,17 @@ services:
     volumes:
       - $PWD:/workspace # mount project folder in container
 
+  rasa:
+    container_name: rasa-env
+    build:
+      context: ./
+      dockerfile: rasa.Dockerfile
+    image: rasa-env
+    ports:
+      - "8000" # web content
+    volumes:
+      - $PWD:/workspace # mount project folder in container
+
   selenium:
     container_name: selenium-env
     build:
