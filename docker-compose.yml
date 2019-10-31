@@ -1,0 +1,34 @@
+version: '3.3'
+services:
+  python:
+    container_name: python-env
+    build:
+      context: ./
+      dockerfile: python.Dockerfile
+    image: python-env
+    ports:
+      - "8000" # web content
+    volumes:
+      - $PWD:/workspace # mount project folder in container
+
+  selenium:
+    container_name: selenium-env
+    build:
+      context: ./
+      dockerfile: selenium.Dockerfile
+    image: selenium-env
+    ports:
+      - "8000" # web content
+    volumes:
+      - $PWD:/workspace # mount project folder in container
+  
+  redis:
+    container_name: redis-env
+    build:
+      context: ./
+      dockerfile: redis.Dockerfile
+    image: redis-env
+    ports:
+      - "6379" # accepting connections
+    volumes:
+      - $PWD:/workspace

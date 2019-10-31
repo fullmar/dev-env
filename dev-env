@@ -1,0 +1,17 @@
+if [ $# -eq 0 ]
+  then
+    echo "Usage: dev-env [tool] [container-name] [port publishing cmd]"
+    exit
+fi
+if [ "$2" ]; then
+  CONTAINER_NAME=$2
+else
+  CONTAINER_NAME=$1-env-$RANDOM
+fi
+if [ "$3" ]; then
+  PORT_PUBLISHING=$3
+else
+  PORT_PUBLISHING=--service-ports
+fi
+COMPOSE_FILE_PATH="$( cd "$( dirname "$0" )" && pwd )"
+docker-compose -f $COMPOSE_FILE_PATH/docker-compose.yml --project-directory $COMPOSE_FILE_PATH --project-name dev-env run --name $CONTAINER_NAME $PORT_PUBLISHING --rm $1
