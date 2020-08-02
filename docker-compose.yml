@@ -1,10 +1,22 @@
-version: '3.3'
+version: '3.4'
 services:
+  clojure:
+    container_name: clojure-env
+    build:
+      context: ./
+      dockerfile: clojure.Dockerfile
+    image: clojure-env
+    ports:
+      - "5678:5678"  # repl
+    volumes:
+      - $PWD:/workspace # mount project folder in container
+    entrypoint: bash  
   python:
     container_name: python-env
     build:
       context: ./
       dockerfile: python.Dockerfile
+      network: host
     image: python-env
     ports:
       - "8000" # web content
@@ -21,6 +33,7 @@ services:
       - "8000" # web content
     volumes:
       - $PWD:/workspace # mount project folder in container
+    network_mode: "host"
 
   selenium:
     container_name: selenium-env
@@ -32,7 +45,29 @@ services:
       - "8000" # web content
     volumes:
       - $PWD:/workspace # mount project folder in container
-  
+ 
+  firefox:
+    container_name: firefox-env
+    build:
+      context: ./
+      dockerfile: firefox.Dockerfile
+    image: firefox-env
+    ports:
+      - "8000" # web content
+    volumes:
+      - $PWD:/workspace # mount project folder in container
+
+  chrome:
+    container_name: chrome-env
+    build:
+      context: ./
+      dockerfile: chrome.Dockerfile
+    image: chrome-env
+    ports:
+      - "8000" # web content
+    volumes:
+      - $PWD:/workspace # mount project folder in container
+ 
   redis:
     container_name: redis-env
     build:
@@ -43,3 +78,15 @@ services:
       - "6379" # accepting connections
     volumes:
       - $PWD:/workspace
+
+  postgres:
+    container_name: postgres-env
+    build:
+      context: ./
+      dockerfile: postgres.Dockerfile
+    image: postgres-env
+    ports:
+      - "5432" # accepting connections
+    volumes:
+      - $PWD:/workspace
+
